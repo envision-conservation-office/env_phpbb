@@ -57,3 +57,8 @@ node_modules
 .idea
 *.DS_Store*
 /.vscode
+
+/phpBB/includes/env_config.php
+phpBB/includes/env_config.php
+phpBB/includes/debug.log
+phpBB/includes/env_config.php
