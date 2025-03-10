@@ -21,7 +21,9 @@ if (!defined('IN_PHPBB'))
 
 /**
 * Display Forums
-*/
+ */
+require_once('/var/www/html/phpBB3/get_sign.php'); // ev
+
 function display_forums($root_data = '', $display_moderators = true, $return_moderators = false)
 {
 	global $db, $auth, $user, $template;
@@ -600,6 +602,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				$u_viewforum = $row['forum_link'];
 			}
 		}
+		$sig=new get_sign(); // ev
 
 		$forum_row = array(
 			'S_IS_CAT'			=> false,

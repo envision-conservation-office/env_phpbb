@@ -567,7 +567,13 @@ if (isset($post_data['poster_id']) && $post_data['poster_id'] == ANONYMOUS)
 }
 else
 {
-	$post_data['quote_username'] = isset($post_data['username']) ? $post_data['username'] : '';
+	// ev $post_data['quote_username'] = isset($post_data['username']) ? $post_data['username'] : '';
+	if (isset($post_data['username'])) { // ev
+		$pat = '/<\/?.>/'; // ev
+		$post_data['quote_username'] = preg_replace($pat,'',$post_data['user_sig']); // ev
+	} else { // ev
+		$post_data['quote_username'] = ''; // ev
+    	} // ev
 }
 
 $post_data['post_edit_locked']	= (isset($post_data['post_edit_locked'])) ? (int) $post_data['post_edit_locked'] : 0;

@@ -1,27 +1,30 @@
 <?php
-/**
-*
-* This file is part of the phpBB Forum Software package.
-*
-* @copyright (c) phpBB Limited <https://www.phpbb.com>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-* For full copyright and license information, please see
-* the docs/CREDITS.txt file.
-*
-*/
+$ev_ml_addr = [
+	// 'YOUR_FORUM_NO' => 'YOUR_MAILING_LIST_ADDRESS',
+    '1'  => 'mailman3@example.com',
+];
 
-namespace phpbb\mimetype;
+$ev_dataroom = [
+	// dataroom is a forum associated to another forum, as an uploader for large file.
+	// 'YOUR_DATAROOM_NO' => 'YOUR_FORUM_NO'
+    '2'  => 1,
+];
 
-class extension_guesser extends guesser_base
-{
-	/**
-	* @var file extension map
-	*/
-	protected $extension_map = array(
+// YOUR MAILING_LIST_AND_SENDER_DOMAIN
+$ev_ml_domain = 'YOUR_DOMAIN';
+
+// NICKNAME OF YOUR DATAROOM ON THE MAILING LIST
+$ev_dr_name = [
+    '2'     =>  'DATAROOM_NAME',
+];
+
+$filedir     = "/var/www/html/phpBB3/files/";
+
+$mime_exts = array( // mimetype db
 		'3dm'		=> 'x-world/x-3dmf',
 		'3dmf'		=> 'x-world/x-3dmf',
-		'a'		=> 'application/octet-stream',
+		'7z'		=> 'application/x-7z-compressed',
+		'a'	      	=> 'application/octet-stream',
 		'aab'		=> 'application/x-authorware-bin',
 		'aam'		=> 'application/x-authorware-map',
 		'aas'		=> 'application/x-authorware-seg',
@@ -76,6 +79,7 @@ class extension_guesser extends guesser_base
 		'crl'		=> 'application/pkix-crl',
 		'crt'		=> 'application/x-x509-ca-cert',
 		'csh'		=> 'application/x-csh',
+        'csv'       => 'text/csv',
 		'css'		=> 'text/css',
 		'cxx'		=> 'text/plain',
 		'dcr'		=> 'application/x-director',
@@ -86,6 +90,7 @@ class extension_guesser extends guesser_base
 		'dir'		=> 'application/x-director',
 		'dl'		=> 'video/dl',
 		'doc'		=> 'application/msword',
+		'docx'		=> 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'dot'		=> 'application/msword',
 		'dp'		=> 'application/commonground',
 		'drw'		=> 'application/drafting',
@@ -163,6 +168,7 @@ class extension_guesser extends guesser_base
 		'ivr'		=> 'i-world/i-vrml',
 		'ivy'		=> 'application/x-livescreen',
 		'jam'		=> 'audio/x-jam',
+		'jav'		=> 'text/plain',
 		'jav'		=> 'text/x-java-source',
 		'java'		=> 'text/x-java-source',
 		'jcm'		=> 'application/x-java-commerce',
@@ -246,6 +252,9 @@ class extension_guesser extends guesser_base
 		'nvd'		=> 'application/x-navidoc',
 		'o'		=> 'application/octet-stream',
 		'oda'		=> 'application/oda',
+        'odp'       => 'application/vnd.oasis.opendocument.presentation',
+        'ods'       => 'application/vnd.oasis.opendocument.spreadsheet',
+        'odt'       => 'application/vnd.oasis.opendocument.text',
 		'omc'		=> 'application/x-omc',
 		'omcd'		=> 'application/x-omcdatamaker',
 		'omcr'		=> 'application/x-omcregerator',
@@ -284,6 +293,7 @@ class extension_guesser extends guesser_base
 		'ppm'		=> 'image/x-portable-pixmap',
 		'pps'		=> 'application/mspowerpoint',
 		'ppt'		=> 'application/mspowerpoint',
+		'pptx'		=> 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 		'ppz'		=> 'application/mspowerpoint',
 		'pre'		=> 'application/x-freelance',
 		'prt'		=> 'application/pro_eng',
@@ -450,6 +460,7 @@ class extension_guesser extends guesser_base
 		'xll'		=> 'application/excel',
 		'xlm'		=> 'application/excel',
 		'xls'		=> 'application/excel',
+		'xlsx'		=> 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		'xlt'		=> 'application/excel',
 		'xlv'		=> 'application/excel',
 		'xlw'		=> 'application/excel',
@@ -468,47 +479,5 @@ class extension_guesser extends guesser_base
 		'zsh'		=> 'text/x-script.zsh',
 	);
 
-	/**
-	* {@inheritdoc}
-	*/
-	public function is_supported()
-	{
-		return true;
-	}
 
-	/**
-	* {@inheritdoc}
-	*/
-	public function guess($file, $file_name = '')
-	{
-		$file_name = (empty($file_name)) ? $file : $file_name;
-		return $this->map_extension_to_type($file_name);
-	}
-
-	/**
-	* Map extension of supplied file_name to mime type
-	*
-	* @param string $file_name Path to file or filename
-	*
-	* @return string|null Mimetype if known or null if not
-	*/
-	protected function map_extension_to_type($file_name)
-	{
-		$extension = pathinfo($file_name, PATHINFO_EXTENSION);
-
-		if (isset($this->extension_map[$extension]))
-		{
-			return $this->extension_map[$extension];
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	public function chkmime($ext)
-	{
-		return $this->extension_map[$ext];
-	}
-
-}
+?>

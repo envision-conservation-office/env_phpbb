@@ -28,6 +28,10 @@ $user->session_begin();
 $auth->acl($user->data);
 $user->setup('viewforum');
 
+require_once('./get_sign.php'); //ev
+$sig=new get_sign();  // ev
+
+
 // Mark notifications read
 if (($mark_notification = $request->variable('mark_notification', 0)))
 {
@@ -218,6 +222,7 @@ $template->assign_vars(array(
 	'TOTAL_TOPICS'	=> $user->lang('TOTAL_TOPICS', (int) $config['num_topics']),
 	'TOTAL_USERS'	=> $user->lang('TOTAL_USERS', (int) $config['num_users']),
 	'NEWEST_USER'	=> $user->lang('NEWEST_USER', get_username_string('full', $config['newest_user_id'], $config['newest_username'], $config['newest_user_colour'])),
+	'NEWEST_USER_SIG' => $sig->get_data( $config['newest_username']), // ev
 
 	'LEGEND'		=> $legend,
 	'BIRTHDAY_LIST'	=> (empty($birthday_list)) ? '' : implode($user->lang['COMMA_SEPARATOR'], $birthday_list),

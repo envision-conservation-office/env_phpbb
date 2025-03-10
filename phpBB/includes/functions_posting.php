@@ -9,7 +9,10 @@
 * For full copyright and license information, please see
 * the docs/CREDITS.txt file.
 *
-*/
+ */
+
+// 鈴木: 18行目と2649行目をコメントアウトすると、それだけでMLに飛ばなくなります。
+include($phpbb_root_path . 'includes/env_postmail.' . $phpEx); // ev
 
 /**
 * @ignore
@@ -2074,6 +2077,8 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll_ary, &$data
 			$sql_data[FORUMS_TABLE]['stat'][] = "forum_last_poster_colour = '" . $db->sql_escape($user->data['user_colour']) . "'";
 		}
 
+		$env_sqldata = $sql_data; // ev
+
 		unset($sql_data[POSTS_TABLE]['sql']);
 	}
 
@@ -2167,6 +2172,7 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll_ary, &$data
 	// Submit Attachments
 	if (!empty($data_ary['attachment_data']) && $data_ary['post_id'] && in_array($mode, array('post', 'reply', 'quote', 'edit')))
 	{
+		$env_attach = 1; // ev
 		$space_taken = $files_added = 0;
 		$orphan_rows = array();
 
@@ -2245,6 +2251,8 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll_ary, &$data
 			$config->increment('upload_dir_size', $space_taken, false);
 			$config->increment('num_files', $files_added, false);
 		}
+	} else {
+		$env_attach = 0; // ev
 	}
 
 	$first_post_has_topic_info = ($post_mode == 'edit_first_post' &&
@@ -2636,6 +2644,10 @@ function submit_post($mode, $subject, $username, $topic_type, &$poll_ary, &$data
 	$poll_ary = $poll;
 	unset($data);
 	unset($poll);
+
+	if(isset($env_sqldata)) { // ev
+		env_postmail($env_sqldata, $env_attach); // ev
+	} // ev
 
 	return $url;
 }
